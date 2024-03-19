@@ -1,0 +1,34 @@
+  openshift:
+    enabled: false
+  controller:
+    metrics:
+      enabled: true
+      serviceMonitor:
+        selector: true
+  server:
+    service:
+      type: "ClusterIP"
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: "letsencrypt-prod"
+        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/tls-acme: "true"
+        nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      hosts:
+        - argo-dev.devlokkaroom.com
+      tls:
+        - secretName: argocd-general-tls
+          hosts:
+            - argo-dev.devlokkaroom.com
+
+  repoServer:
+    metrics:
+      enabled: true
+      serviceMonitor:
+        selector: true
+  dex:
+    enabled: true
+  redis:
+    enabled: true
